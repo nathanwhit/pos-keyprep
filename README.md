@@ -148,7 +148,7 @@ subcommand that just executes all of the `kubectl cp` commands to copy the keys 
     running kubectl cp generatedKeystores/test-creditcoin-bootnode-0/keystore/6772616e9c30a8d0e7cf24ab9982c336ca018ddd2b776029a081d59a72393fd95bf47de4 test-creditcoin-bootnode-0:/data/chains/creditcoin-staging/keystore/6772616e9c30a8d0e7cf24ab9982c336ca018ddd2b776029a081d59a72393fd95bf47de4
     ```
 
-3. Actually do it. Just run the same command minus the `--dry-run` flag.
+3. Assuming that all looks reasonable, it's time to actually copy the keys. Just run the same command minus the `--dry-run` flag.
 
     ```bash
         deno run main.ts copy-keystores --keystores ./generatedKeystores --chain-spec ./myTargetChainSpec.json
