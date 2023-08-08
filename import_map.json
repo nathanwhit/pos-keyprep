@@ -1,0 +1,9 @@
+{
+  "imports": {
+    "@polkadot/": "https://deno.land/x/polkadot@0.2.41/",
+    "json-bigint/": "npm:/json-bigint@1.0.0/",
+    "cliffy/": "https://deno.land/x/cliffy@v1.0.0-rc.2/",
+    "std/": "https://deno.land/std@0.192.0/",
+    "zod/": "https://deno.land/x/zod@v3.21.4/"
+  }
+}
