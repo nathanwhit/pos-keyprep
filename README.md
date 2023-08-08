@@ -119,12 +119,12 @@ subcommand that just executes all of the `kubectl cp` commands to copy the keys 
 2. Do a dry run of the copy commands via
 
     ```bash
-        deno run main.ts copy-keystores --dry-run --keystores ./generatedKeystores --chain-spec ./myTargetChainSpec.json
+    deno run main.ts copy-keystores --dry-run --keystores ./generatedKeystores --chain-spec ./myTargetChainSpec.json
     ```
 
-    Will print something like 
+    Will print something like:
 
-    ```
+    ```text
     running kubectl cp generatedKeystores/test-miner-creditcoin-miner-0/keystore/62616265526c7315c1551425fed10d4fec7dfb49b2dbfe1a4c4f330189fc805990abfa78 test-miner-creditcoin-miner-0:/data/chains/creditcoin-staging/keystore/62616265526c7315c1551425fed10d4fec7dfb49b2dbfe1a4c4f330189fc805990abfa78
     running kubectl cp generatedKeystores/test-miner-creditcoin-miner-0/keystore/6772616e37d6c3ba3742dc92d7a4ec01b21ce60ac3631a85443145652ebc1b7bdf3dea32 test-miner-creditcoin-miner-0:/data/chains/creditcoin-staging/keystore/6772616e37d6c3ba3742dc92d7a4ec01b21ce60ac3631a85443145652ebc1b7bdf3dea32
     running kubectl cp generatedKeystores/test-miner-creditcoin-miner-0/keystore/696d6f6ed664a2e95b2c924019a52593f5db251d090a620943611412ff490a5ce3a7786d test-miner-creditcoin-miner-0:/data/chains/creditcoin-staging/keystore/696d6f6ed664a2e95b2c924019a52593f5db251d090a620943611412ff490a5ce3a7786d
@@ -151,5 +151,5 @@ subcommand that just executes all of the `kubectl cp` commands to copy the keys 
 3. Assuming that all looks reasonable, it's time to actually copy the keys. Just run the same command minus the `--dry-run` flag.
 
     ```bash
-        deno run main.ts copy-keystores --keystores ./generatedKeystores --chain-spec ./myTargetChainSpec.json
+    deno run main.ts copy-keystores --keystores ./generatedKeystores --chain-spec ./myTargetChainSpec.json
     ```
