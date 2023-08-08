@@ -59,7 +59,11 @@ async function copyKeystores({
     const source = nodeKeystore.path;
     const destPath = paths.join(outputChains, chainId, "keystore", basename);
     const [_cmd, cmdString] = copyKeystoreCmd(source, podName, destPath);
-    log(`running ${cmdString}`, "primary");
+    console.log(
+      `%cRunning command %c\`${cmdString}\``,
+      `color: blue`,
+      `color: primary`
+    );
     if (dryRun) {
       continue;
     }
