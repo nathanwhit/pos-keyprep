@@ -48,13 +48,13 @@ async function makeInitialValidators({
   for (const [name, stash] of validators.entries()) {
     const nodeKeystoreDir = `${keystoresDir}/${name}`;
     log(`Generating keystore files for ${name} in ${nodeKeystoreDir}`);
-    const sessionKeys = generateSessionKeys();
+    const sessionKeys = await generateSessionKeys();
     await generateKeystoreFiles(sessionKeys, nodeKeystoreDir);
     let controller;
     if (controllerKeysOutDir) {
       const controllerKeysOutPath = `${controllerKeysOutDir}/${name}.json`;
       log(`Generating controller keys for ${name} in ${controllerKeysOutPath}`);
-      const keypair = generateKeypair("sr25519");
+      const keypair = await generateKeypair("sr25519");
       controller = keypair.accountId;
       await Deno.writeTextFile(
         controllerKeysOutPath,

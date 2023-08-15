@@ -4,7 +4,7 @@ import {
 } from "@polkadot/util-crypto/mod.ts";
 import { Keyring } from "@polkadot/api/mod.ts";
 import { u8aToHex } from "@polkadot/util/mod.ts";
-import { makeDir, nameCase } from "./utils.ts";
+import { makeDir } from "./utils.ts";
 
 export type Account = {
   address: string;
@@ -24,38 +24,6 @@ export type Node = {
   accounts: Accounts;
 };
 
-export async function generateKeyForNode(nodeName?: string): Promise<Accounts> {
-  await cryptoWaitReady();
-
-  const mnemonic = mnemonicGenerate();
-  const seed = nodeName ? `//${nameCase(nodeName)}` : mnemonic;
-
-  const sr_keyring = new Keyring({ type: "sr25519" });
-  const sr_account = sr_keyring.createFromUri(`${seed}`);
-  const sr_stash = sr_keyring.createFromUri(`${seed}//stash`);
-
-  const ed_keyring = new Keyring({ type: "ed25519" });
-  const ed_account = ed_keyring.createFromUri(`${seed}`);
-
-  // return the needed info
-  return {
-    seed,
-    mnemonic,
-    sr_account: {
-      address: sr_account.address,
-      publicKey: u8aToHex(sr_account.publicKey),
-    },
-    sr_stash: {
-      address: sr_stash.address,
-      publicKey: u8aToHex(sr_stash.publicKey),
-    },
-    ed_account: {
-      address: ed_account.address,
-      publicKey: u8aToHex(ed_account.publicKey),
-    },
-  };
-}
-
 export type KeyScheme = "ecdsa" | "sr25519" | "ed25519";
 
 export type KeyPair<S extends KeyScheme> = {
@@ -72,7 +40,11 @@ export type SessionKeys = {
   gran: KeyPair<"ed25519">;
 };
 
-export function generateKeypair<S extends KeyScheme>(scheme: S): KeyPair<S> {
+export async function generateKeypair<S extends KeyScheme>(
+  scheme: S
+): Promise<KeyPair<S>> {
+  await cryptoWaitReady();
+
   const mnemonic = mnemonicGenerate();
   const keyring = new Keyring({ type: scheme });
   const pair = keyring.addFromUri(mnemonic);
@@ -84,10 +56,10 @@ export function generateKeypair<S extends KeyScheme>(scheme: S): KeyPair<S> {
   };
 }
 
-export function generateSessionKeys() {
-  const babe = generateKeypair("sr25519");
-  const imon = generateKeypair("sr25519");
-  const gran = generateKeypair("ed25519");
+export async function generateSessionKeys(): Promise<SessionKeys> {
+  const babe = await generateKeypair("sr25519");
+  const imon = await generateKeypair("sr25519");
+  const gran = await generateKeypair("ed25519");
 
   return {
     babe,
