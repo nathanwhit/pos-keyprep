@@ -1,4 +1,4 @@
-import { Command } from "cliffy/command/mod.ts";
+import { Command, HelpCommand } from "cliffy/command/mod.ts";
 import { log, makeDir } from "./utils.ts";
 import {
   SessionKeys,
@@ -6,11 +6,6 @@ import {
   generateKeystoreFiles,
   generateSessionKeys,
 } from "./keys.ts";
-import {
-  Chainspec,
-  readAndParseChainSpec,
-  writeChainSpec,
-} from "./chainspec.ts";
 import { copyKeystoresCmd } from "./copy-keystores.ts";
 import { z } from "zod/mod.ts";
 
@@ -81,11 +76,6 @@ async function makeInitialValidators({
   };
 }
 
-async function patchCode(spec: Chainspec, codeSpecPath: string) {
-  const codeSpec = await readAndParseChainSpec(codeSpecPath);
-  spec.genesis.runtime.system.code = codeSpec.genesis.runtime.system.code;
-}
-
 const makeValidatorsCmd = new Command()
   .description("make keys, keystores for nodes")
   .option("-k --keystore <keystore>", "keystore file path", {
@@ -120,15 +110,8 @@ const makeValidatorsCmd = new Command()
 await new Command()
   .name("pos-keyprep")
   .version("0.0.1")
+  .default("help")
+  .command("help", new HelpCommand().global())
   .command("make-initial-validators", makeValidatorsCmd)
   .command("copy-keystores", copyKeystoresCmd)
-  .command("patch-code <spec> <codeSpec>", "patch code spec file")
-  .action(async (_options, spec, codeSpec) => {
-    const chainSpec = await readAndParseChainSpec(spec);
-
-    await patchCode(chainSpec, codeSpec);
-
-    log(`Writing patched chain spec to ${spec}`, "green");
-    writeChainSpec(spec, chainSpec);
-  })
   .parse(Deno.args);

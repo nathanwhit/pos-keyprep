@@ -18,17 +18,16 @@ Generate session keys and keystores and such for a set of validators.
 
 1. Set up a file mapping k8s pod to validator stash account e.g.
 
-(In a hypothetical `validators.json`)
+    (In a hypothetical `validators.json`)
 
-```json
-{
-  "test-creditcoin-bootnode-0": "5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY",
-  "test-miner-creditcoin-miner-0": "5GVwAgeMv82MYMvuthgDGS9uEeDF2a1DeCzKmv7UDFs7GygA"
-}
-```
+    ```json
+    {
+      "test-creditcoin-bootnode-0": "5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY",
+      "test-miner-creditcoin-miner-0": "5GVwAgeMv82MYMvuthgDGS9uEeDF2a1DeCzKmv7UDFs7GygA"
+    }
+    ```
 
 2. Decide if you want to generate controller keys as well
-
 3. Run the script
 
 Note: if you don't want to generate controller keys, then omit `--controller-keys-out ./controllers`
